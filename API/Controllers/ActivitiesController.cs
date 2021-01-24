@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Domain;
 using Application.Activities;
+using System;
 
 namespace API.Controllers
 {
@@ -17,10 +18,22 @@ namespace API.Controllers
             this._mediator = mediator;
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Activity>> Details(Guid id)
+        {
+            return await this._mediator.Send(new Details.Query { Id = id });
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> List()
         {
             return await this._mediator.Send(new List.Query());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Unit>> Create([FromBody] Create.Command command)
+        {
+            return await this._mediator.Send(command);
         }
     }
 }
