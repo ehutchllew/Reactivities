@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {  Container, List } from 'semantic-ui-react';
+import { ActivityDashboard } from '../../features/activities/dashboard/ActivityDashboard';
 import { NavBar } from '../../features/nav/NavBar';
 
 function App() {
@@ -11,9 +12,7 @@ function App() {
     <div>
       <NavBar />
       <Container style={{marginTop: '7em'}}>
-        <List>
-          {activities.map(activity => <List.Item key={activity.id}>{activity.title}</List.Item>)}
-        </List>
+        <ActivityDashboard activities={activities} />
       </Container>
     </div>
 
