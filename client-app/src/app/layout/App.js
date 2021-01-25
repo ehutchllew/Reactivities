@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {  List } from 'semantic-ui-react';
+import {  Container, List } from 'semantic-ui-react';
 import { NavBar } from '../../features/nav/NavBar';
 
 function App() {
@@ -10,9 +10,11 @@ function App() {
   return (
     <div>
       <NavBar />
-      <List>
+      <Container style={{marginTop: '7em'}}>
+        <List>
           {activities.map(activity => <List.Item key={activity.id}>{activity.title}</List.Item>)}
         </List>
+      </Container>
     </div>
 
   );
