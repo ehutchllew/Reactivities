@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Header, Icon, List } from 'semantic-ui-react';
+import {  List } from 'semantic-ui-react';
+import { NavBar } from '../../features/nav/NavBar';
 
 function App() {
   const [activities, setActivities] = useState([])
@@ -8,10 +9,7 @@ function App() {
   }, [])
   return (
     <div>
-      <Header as='h2'>
-        <Icon name='users' />
-        <Header.Content>Reactivitiess</Header.Content>
-      </Header>
+      <NavBar />
       <List>
           {activities.map(activity => <List.Item key={activity.id}>{activity.title}</List.Item>)}
         </List>
