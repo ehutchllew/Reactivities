@@ -4,14 +4,21 @@ import { ActivityDetails } from "../details/ActivityDetails";
 import { ActivityForm } from "../form/ActivityForm";
 import { ActivityList } from "./ActivityList";
 
-export const ActivityDashboard = ({ activities }) => {
+export const ActivityDashboard = ({
+    activities,
+    selectActivity,
+    selectedActivity,
+}) => {
     return (
         <Grid>
             <Grid.Column width={10}>
-                <ActivityList activities={activities} />
+                <ActivityList
+                    activities={activities}
+                    selectActivity={selectActivity}
+                />
             </Grid.Column>
             <Grid.Column width={6}>
-                <ActivityDetails />
+                <ActivityDetails selectedActivity={selectedActivity} />
                 <ActivityForm />
             </Grid.Column>
         </Grid>

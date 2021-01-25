@@ -1,16 +1,25 @@
 import React from "react";
-import { Button, Card, Icon, Image } from "semantic-ui-react";
+import { Button, Card, Image } from "semantic-ui-react";
 
-export const ActivityDetails = () => {
+export const ActivityDetails = ({ selectedActivity }) => {
+    if (!selectedActivity) {
+        return null;
+    }
     return (
         <Card fluid>
-            <Image src="/assets/placeholder.png" wrapped ui={false} />
+            <Image
+                src={`/assets/categoryImages/${selectedActivity.category}.jpg`}
+                wrapped
+                ui={false}
+            />
             <Card.Content>
-                <Card.Header>Title</Card.Header>
+                <Card.Header>{selectedActivity.title}</Card.Header>
                 <Card.Meta>
-                    <span>Date</span>
+                    <span>{selectedActivity.date}</span>
                 </Card.Meta>
-                <Card.Description>Description</Card.Description>
+                <Card.Description>
+                    {selectedActivity.description}
+                </Card.Description>
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths={2}>

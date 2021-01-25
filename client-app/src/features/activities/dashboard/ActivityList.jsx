@@ -1,7 +1,7 @@
 import React from "react";
 import { Item, Button, Label, Segment } from "semantic-ui-react";
 
-export const ActivityList = ({ activities }) => {
+export const ActivityList = ({ activities, selectActivity }) => {
     return (
         <Segment clearing>
             <Item.Group divided>
@@ -18,6 +18,7 @@ export const ActivityList = ({ activities }) => {
                             </Item.Description>
                             <Item.Extra>
                                 <Button
+                                    onClick={() => selectActivity(activity.id)}
                                     floated="right"
                                     content="View"
                                     color="blue"
