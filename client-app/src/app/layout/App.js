@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import './App.css';
 import { Header, Icon, List } from 'semantic-ui-react';
 
 function App() {
-  const [values, setValues] = useState([])
+  const [activities, setActivities] = useState([])
   useEffect(() => {
-    fetch('http://localhost:5000/api/values').then(response => response.json()).then(json => setValues(json))
+    fetch('http://localhost:5000/api/activities').then(response => response.json()).then(json => setActivities(json))
   }, [])
   return (
     <div>
@@ -14,7 +13,7 @@ function App() {
         <Header.Content>Reactivitiess</Header.Content>
       </Header>
       <List>
-          {values.map(value => <List.Item>{value.name}</List.Item>)}
+          {activities.map(activity => <List.Item key={activity.id}>{activity.title}</List.Item>)}
         </List>
     </div>
 
