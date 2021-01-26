@@ -12,12 +12,17 @@ function App() {
     setSelectedActivity(activities.find(activity => activity.id === id));
   }
 
+  const handleOpenCreateForm = () => {
+    setSelectedActivity(null);
+    setEditMode(true);
+  }
+
   useEffect(() => {
     fetch('http://localhost:5000/api/activities').then(response => response.json()).then(json => setActivities(json))
   }, [])
   return (
     <div>
-      <NavBar />
+      <NavBar openCreateForm={handleOpenCreateForm} />
       <Container style={{marginTop: '7em'}}>
         <ActivityDashboard 
           activities={activities} 
