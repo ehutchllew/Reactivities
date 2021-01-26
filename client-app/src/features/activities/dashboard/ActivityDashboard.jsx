@@ -10,6 +10,7 @@ export const ActivityDashboard = ({
     selectActivity,
     selectedActivity,
     setEditMode,
+    setSelectedActivity,
 }) => {
     return (
         <Grid>
@@ -24,9 +25,15 @@ export const ActivityDashboard = ({
                     <ActivityDetails
                         selectedActivity={selectedActivity}
                         setEditMode={setEditMode}
+                        setSelectedActivity={setSelectedActivity}
                     />
                 )}
-                {editMode && <ActivityForm />}
+                {editMode && (
+                    <ActivityForm
+                        selectedActivity={selectedActivity}
+                        setEditMode={setEditMode}
+                    />
+                )}
             </Grid.Column>
         </Grid>
     );

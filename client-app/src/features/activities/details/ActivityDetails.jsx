@@ -1,7 +1,11 @@
 import React from "react";
 import { Button, Card, Image } from "semantic-ui-react";
 
-export const ActivityDetails = ({ selectedActivity, setEditMode }) => {
+export const ActivityDetails = ({
+    selectedActivity,
+    setEditMode,
+    setSelectedActivity,
+}) => {
     if (!selectedActivity) {
         return null;
     }
@@ -29,7 +33,12 @@ export const ActivityDetails = ({ selectedActivity, setEditMode }) => {
                         color="blue"
                         content="edit"
                     />
-                    <Button basic color="gray" content="Cancel" />
+                    <Button
+                        onClick={() => setSelectedActivity(null)}
+                        basic
+                        color="gray"
+                        content="Cancel"
+                    />
                 </Button.Group>
             </Card.Content>
         </Card>
