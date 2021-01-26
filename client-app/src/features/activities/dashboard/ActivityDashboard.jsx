@@ -1,13 +1,15 @@
 import React from "react";
-import { Grid, List } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import { ActivityDetails } from "../details/ActivityDetails";
 import { ActivityForm } from "../form/ActivityForm";
 import { ActivityList } from "./ActivityList";
 
 export const ActivityDashboard = ({
     activities,
+    editMode,
     selectActivity,
     selectedActivity,
+    setEditMode,
 }) => {
     return (
         <Grid>
@@ -18,8 +20,13 @@ export const ActivityDashboard = ({
                 />
             </Grid.Column>
             <Grid.Column width={6}>
-                <ActivityDetails selectedActivity={selectedActivity} />
-                <ActivityForm />
+                {!editMode && (
+                    <ActivityDetails
+                        selectedActivity={selectedActivity}
+                        setEditMode={setEditMode}
+                    />
+                )}
+                {editMode && <ActivityForm />}
             </Grid.Column>
         </Grid>
     );
