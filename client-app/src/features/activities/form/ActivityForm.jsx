@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
+import { v4 as uuid } from "uuid";
 
-export const ActivityForm = ({ setEditMode, selectedActivity }) => {
+export const ActivityForm = ({
+    createActivity,
+    editActivity,
+    setEditMode,
+    selectedActivity,
+}) => {
     const initializeForm = () => {
         if (selectedActivity) {
             return selectedActivity;
@@ -26,9 +32,22 @@ export const ActivityForm = ({ setEditMode, selectedActivity }) => {
         });
     };
 
+    const handleSubmit = () => {
+        if (!activity.id) {
+            let newActivity = {
+                ...activity,
+                id: uuid(),
+            };
+
+            createActivity(newActivity);
+        } else {
+            editActivity(activity);
+        }
+    };
+
     return (
         <Segment clearing>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <Form.Input
                     onChange={handleInputChange}
                     name="title"

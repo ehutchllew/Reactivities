@@ -17,6 +17,18 @@ function App() {
     setEditMode(true);
   }
 
+  const handleCreateActivity = (activity) => {
+    setActivities([...activities, activity])
+    setSelectedActivity(activity);
+    setEditMode(false);
+  }
+
+  const handleEditActivity = (activity) => {
+    setActivities([...activities.filter(act => act.id !== activity.id), activity])
+    setSelectedActivity(activity);
+    setEditMode(false);
+  }
+
   useEffect(() => {
     fetch('http://localhost:5000/api/activities').then(response => response.json()).then(json => setActivities(json))
   }, [])
@@ -26,9 +38,11 @@ function App() {
       <Container style={{marginTop: '7em'}}>
         <ActivityDashboard 
           activities={activities} 
+          createActivity={handleCreateActivity}
+          editActivity={handleEditActivity}
+          editMode={editMode} 
           selectActivity={handleSelectActivity} 
           selectedActivity={selectedActivity} 
-          editMode={editMode} 
           setEditMode={setEditMode}
           setSelectedActivity={setSelectedActivity}
         />

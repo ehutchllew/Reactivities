@@ -6,6 +6,8 @@ import { ActivityList } from "./ActivityList";
 
 export const ActivityDashboard = ({
     activities,
+    createActivity,
+    editActivity,
     editMode,
     selectActivity,
     selectedActivity,
@@ -30,6 +32,8 @@ export const ActivityDashboard = ({
                 )}
                 {editMode && (
                     <ActivityForm
+                        createActivity={createActivity}
+                        editActivity={editActivity}
                         selectedActivity={selectedActivity}
                         setEditMode={setEditMode}
                     />
