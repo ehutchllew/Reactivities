@@ -19,23 +19,54 @@ export const ActivityForm = ({ setEditMode, selectedActivity }) => {
 
     const [activity, setActivity] = useState(initializeForm);
 
+    const handleInputChange = (event) => {
+        setActivity({
+            ...activity,
+            [event.target.name]: event.target.value,
+        });
+    };
+
     return (
         <Segment clearing>
             <Form>
-                <Form.Input placeholder="Title" value={activity.title} />
+                <Form.Input
+                    onChange={handleInputChange}
+                    name="title"
+                    placeholder="Title"
+                    value={activity.title}
+                />
                 <Form.TextArea
+                    onChange={handleInputChange}
                     rows={2}
+                    name="description"
                     placeholder="Description"
                     value={activity.description}
                 />
-                <Form.Input placeholder="Category" value={activity.category} />
                 <Form.Input
+                    onChange={handleInputChange}
+                    name="category"
+                    placeholder="Category"
+                    value={activity.category}
+                />
+                <Form.Input
+                    onChange={handleInputChange}
                     type="date"
+                    name="date"
                     placeholder="Date"
                     value={activity.date}
                 />
-                <Form.Input placeholder="City" value={activity.city} />
-                <Form.Input placeholder="Venue" value={activity.venue} />
+                <Form.Input
+                    onChange={handleInputChange}
+                    name="city"
+                    placeholder="City"
+                    value={activity.city}
+                />
+                <Form.Input
+                    onChange={handleInputChange}
+                    name="venue"
+                    placeholder="Venue"
+                    value={activity.venue}
+                />
                 <Button
                     floated="right"
                     positive
