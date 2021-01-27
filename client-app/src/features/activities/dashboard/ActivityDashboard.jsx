@@ -7,6 +7,7 @@ import { ActivityList } from "./ActivityList";
 export const ActivityDashboard = ({
     activities,
     createActivity,
+    deleteActivity,
     editActivity,
     editMode,
     selectActivity,
@@ -19,6 +20,7 @@ export const ActivityDashboard = ({
             <Grid.Column width={10}>
                 <ActivityList
                     activities={activities}
+                    deleteActivity={deleteActivity}
                     selectActivity={selectActivity}
                 />
             </Grid.Column>
@@ -32,6 +34,7 @@ export const ActivityDashboard = ({
                 )}
                 {editMode && (
                     <ActivityForm
+                        key={selectedActivity?.id || 0}
                         createActivity={createActivity}
                         editActivity={editActivity}
                         selectedActivity={selectedActivity}

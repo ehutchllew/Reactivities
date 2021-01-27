@@ -10,6 +10,7 @@ function App() {
 
   const handleSelectActivity = (id) => {
     setSelectedActivity(activities.find(activity => activity.id === id));
+    setEditMode(false);
   }
 
   const handleOpenCreateForm = () => {
@@ -29,8 +30,19 @@ function App() {
     setEditMode(false);
   }
 
+  const handleDeleteActivity = (id) => {
+    if(id===selectedActivity.id){setSelectedActivity(null);}
+    setActivities([...activities.filter(activity => activity.id !== id)])
+  }
+
   useEffect(() => {
-    fetch('http://localhost:5000/api/activities').then(response => response.json()).then(json => setActivities(json))
+    fetch('http://localhost:5000/api/activities').then(response => response.json()).then(json => {
+      let activities =  [];
+      json.forEach(activity => {
+        activity.date = activity.date.split('.')[0]
+        activities.push(activity);
+      })
+    setActivities(activities)})
   }, [])
   return (
     <div>
@@ -39,6 +51,7 @@ function App() {
         <ActivityDashboard 
           activities={activities} 
           createActivity={handleCreateActivity}
+          deleteActivity={handleDeleteActivity}
           editActivity={handleEditActivity}
           editMode={editMode} 
           selectActivity={handleSelectActivity} 

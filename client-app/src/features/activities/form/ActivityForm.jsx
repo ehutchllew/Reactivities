@@ -69,7 +69,7 @@ export const ActivityForm = ({
                 />
                 <Form.Input
                     onChange={handleInputChange}
-                    type="date"
+                    type="datetime-local"
                     name="date"
                     placeholder="Date"
                     value={activity.date}
