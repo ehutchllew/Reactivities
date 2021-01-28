@@ -36,7 +36,7 @@ export const ActivityDetails = ({
                     <Button
                         onClick={() => setSelectedActivity(null)}
                         basic
-                        color="gray"
+                        color="grey"
                         content="Cancel"
                     />
                 </Button.Group>
