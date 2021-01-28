@@ -31,9 +31,12 @@ function App() {
   }
 
   const handleCreateActivity = (activity) => {
-    setActivities([...activities, activity])
-    setSelectedActivity(activity);
-    setEditMode(false);
+    ActivitiesService.create(activity)
+      .then(() => {
+        setActivities([...activities, activity])
+        setSelectedActivity(activity);
+        setEditMode(false);
+      })
   }
 
   const handleEditActivity = (activity) => {
