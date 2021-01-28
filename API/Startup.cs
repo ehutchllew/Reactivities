@@ -39,7 +39,7 @@ namespace API
                 {
                     // policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
 
-                    policy.WithHeaders(new string[] { "Access-Control-Allow-Origin" }).AllowAnyMethod().WithOrigins("http://localhost:3000");
+                    policy.WithHeaders(new string[] { "Access-Control-Allow-Origin", "Content-Type" }).AllowAnyMethod().WithOrigins("http://localhost:3000");
                 });
             });
 

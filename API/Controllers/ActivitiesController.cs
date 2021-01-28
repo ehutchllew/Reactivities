@@ -27,12 +27,14 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> List()
         {
+            Console.WriteLine("GOT HERE");
             return await this._mediator.Send(new List.Query());
         }
 
         [HttpPost]
         public async Task<ActionResult<Unit>> Create([FromBody] Create.Command command)
         {
+            Console.WriteLine(command);
             return await this._mediator.Send(command);
         }
 
