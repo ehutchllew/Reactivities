@@ -3,21 +3,25 @@ import {  Container } from 'semantic-ui-react';
 import { ActivityDashboard } from '../../features/activities/dashboard/ActivityDashboard';
 import { NavBar } from '../../features/nav/NavBar';
 import { ActivitiesService } from '../api/agent';
+import { LoadingIndicator } from './LoadingIndicator';
 
 function App() {
   const [activities, setActivities] = useState([])
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     ActivitiesService.list()
-    .then(response => response.json()).then(json => {
+    .then(response => response.json())
+    .then(json => {
       let activities =  [];
       json.forEach(activity => {
         activity.date = activity.date.split('.')[0]
         activities.push(activity);
       })
-    setActivities(activities)})
+      setActivities(activities)})
+    .then(() => setLoading(false))
   }, [])
 
   const handleSelectActivity = (id) => {
@@ -40,15 +44,24 @@ function App() {
   }
 
   const handleEditActivity = (activity) => {
-    setActivities([...activities.filter(act => act.id !== activity.id), activity])
-    setSelectedActivity(activity);
-    setEditMode(false);
+    ActivitiesService.update(activity)
+      .then(() => {
+        setActivities([...activities.filter(act => act.id !== activity.id), activity])
+        setSelectedActivity(activity);
+        setEditMode(false);
+      })
+    
   }
 
   const handleDeleteActivity = (id) => {
-    if(id===selectedActivity.id){setSelectedActivity(null);}
-    setActivities([...activities.filter(activity => activity.id !== id)])
+    ActivitiesService.delete(id)
+        .then(() => {
+          if(selectedActivity && id===selectedActivity.id){setSelectedActivity(null);}
+          setActivities([...activities.filter(activity => activity.id !== id)])
+        })
   }
+
+  if(loading) return <LoadingIndicator content="Loading Activities..." />
 
   
   return (

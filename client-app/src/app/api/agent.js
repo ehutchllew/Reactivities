@@ -3,6 +3,9 @@ const baseHeaders = {
    "Content-Type": "application/json"
 }
 
+const sleep = (ms) => (response) => {
+    return new Promise(resolve => setTimeout(() => resolve(response), ms))
+}
 
 async function baseService(method, url, body, headers){
 const allHeaders = {
@@ -16,7 +19,7 @@ const resp = await fetch(baseUrl + url, {
     body,
 })    
 console.log(resp);
-    return resp;
+    return sleep(1000)(resp);
 }
 
 const requests = {
@@ -30,6 +33,6 @@ export const ActivitiesService = {
     list: () => requests.get("/activities"),
     details: (id) => requests.get(`/activities/${id}`),
     create: (body) => requests.post("/activities", JSON.stringify(body)),
-    update: (body) => requests.put(`/activities/${body.id}`, body),
+    update: (body) => requests.put(`/activities/${body.id}`, JSON.stringify(body)),
     delete: (id) => requests.delete(`/activities/${id}`)
 }
