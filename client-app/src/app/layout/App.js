@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import {  Container } from 'semantic-ui-react';
+import { observer } from 'mobx-react-lite';
 import { ActivityDashboard } from '../../features/activities/dashboard/ActivityDashboard';
 import { NavBar } from '../../features/nav/NavBar';
 import { ActivitiesService } from '../api/agent';
@@ -16,17 +17,8 @@ function App() {
   const [target, setTarget] = useState('');
 
   useEffect(() => {
-    ActivitiesService.list()
-    .then(response => response.json())
-    .then(json => {
-      let activities =  [];
-      json.forEach(activity => {
-        activity.date = activity.date.split('.')[0]
-        activities.push(activity);
-      })
-      setActivities(activities)})
-    .then(() => setLoading(false))
-  }, [])
+    activityStore.loadActivities();
+  }, [activityStore])
 
   const handleSelectActivity = (id) => {
     setSelectedActivity(activities.find(activity => activity.id === id));
@@ -72,7 +64,7 @@ function App() {
         .then(() => setSubmitting(false))
   }
 
-  if(loading) return <LoadingIndicator content="Loading Activities..." />
+  if(activityStore.loadingIndicator) return <LoadingIndicator content="Loading Activities..." />
 
   
   return (
@@ -81,7 +73,7 @@ function App() {
       <Container style={{marginTop: '7em'}}>
         <h1>{activityStore.title}</h1>
         <ActivityDashboard 
-          activities={activities} 
+          activities={activityStore.activities} 
           createActivity={handleCreateActivity}
           deleteActivity={handleDeleteActivity}
           editActivity={handleEditActivity}
@@ -99,4 +91,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);
