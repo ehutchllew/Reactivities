@@ -77,9 +77,7 @@ function App() {
           createActivity={handleCreateActivity}
           deleteActivity={handleDeleteActivity}
           editActivity={handleEditActivity}
-          editMode={editMode} 
           selectActivity={handleSelectActivity} 
-          selectedActivity={selectedActivity} 
           setEditMode={setEditMode}
           setSelectedActivity={setSelectedActivity}
           submitting={submitting}

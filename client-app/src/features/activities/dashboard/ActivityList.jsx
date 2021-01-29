@@ -1,9 +1,12 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useContext } from "react";
 import { Item, Button, Label, Segment } from "semantic-ui-react";
+import { ActivityContext } from "../../../app/stores/activityStore";
 
 export const ActivityList = observer(
-    ({ activities, deleteActivity, selectActivity, submitting, target }) => {
+    ({ deleteActivity, submitting, target }) => {
+        const activityStore = useContext(ActivityContext);
+        const { activities, selectActivity } = activityStore;
         return (
             <Segment clearing>
                 <Item.Group divided>

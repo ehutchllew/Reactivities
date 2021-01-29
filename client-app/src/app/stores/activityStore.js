@@ -4,12 +4,18 @@ import { ActivitiesService } from '../api/agent';
 
 class ActivityStore {
    activities = [];
+   editMode = false;
    loadingIndicator = false;
+   selectedActivity = null;
+
    constructor(){
        makeObservable(this, {
            activities: observable,
+           editMode: observable,
            loadActivities: action,
-           loadingIndicator: observable
+           loadingIndicator: observable,
+           selectActivity: action,
+           selectedActivity: observable,
        })
    }
 
@@ -24,6 +30,11 @@ class ActivityStore {
       })
     })
     .finally(() => this.loadingIndicator=false)
+   }
+
+   selectActivity = (id) => {
+       this.selectedActivity = this.activities.find(activity => activity.id == id);
+       this.editMode = false;
    }
 }
 
