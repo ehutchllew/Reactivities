@@ -14,6 +14,8 @@ export const ActivityDashboard = ({
     selectedActivity,
     setEditMode,
     setSelectedActivity,
+    submitting,
+    target,
 }) => {
     return (
         <Grid>
@@ -22,6 +24,8 @@ export const ActivityDashboard = ({
                     activities={activities}
                     deleteActivity={deleteActivity}
                     selectActivity={selectActivity}
+                    submitting={submitting}
+                    target={target}
                 />
             </Grid.Column>
             <Grid.Column width={6}>
@@ -39,6 +43,7 @@ export const ActivityDashboard = ({
                         editActivity={editActivity}
                         selectedActivity={selectedActivity}
                         setEditMode={setEditMode}
+                        submitting={submitting}
                     />
                 )}
             </Grid.Column>

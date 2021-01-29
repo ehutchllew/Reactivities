@@ -10,6 +10,8 @@ function App() {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [target, setTarget] = useState('');
 
   useEffect(() => {
     ActivitiesService.list()
@@ -35,30 +37,37 @@ function App() {
   }
 
   const handleCreateActivity = (activity) => {
+    setSubmitting(true);
     ActivitiesService.create(activity)
       .then(() => {
         setActivities([...activities, activity])
         setSelectedActivity(activity);
         setEditMode(false);
       })
+      .then(() => setSubmitting(false))
   }
 
   const handleEditActivity = (activity) => {
+    setSubmitting(true);
     ActivitiesService.update(activity)
       .then(() => {
         setActivities([...activities.filter(act => act.id !== activity.id), activity])
         setSelectedActivity(activity);
         setEditMode(false);
       })
+      .then(() => setSubmitting(false))
     
   }
 
-  const handleDeleteActivity = (id) => {
+  const handleDeleteActivity = (event, id) => {
+    setSubmitting(true);
+    setTarget(event.currentTarget.name);
     ActivitiesService.delete(id)
         .then(() => {
           if(selectedActivity && id===selectedActivity.id){setSelectedActivity(null);}
           setActivities([...activities.filter(activity => activity.id !== id)])
-        })
+          })
+        .then(() => setSubmitting(false))
   }
 
   if(loading) return <LoadingIndicator content="Loading Activities..." />
@@ -78,6 +87,8 @@ function App() {
           selectedActivity={selectedActivity} 
           setEditMode={setEditMode}
           setSelectedActivity={setSelectedActivity}
+          submitting={submitting}
+          target={target}
         />
       </Container>
     </div>

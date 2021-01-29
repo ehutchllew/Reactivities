@@ -7,6 +7,7 @@ export const ActivityForm = ({
     editActivity,
     setEditMode,
     selectedActivity,
+    submitting,
 }) => {
     const initializeForm = () => {
         if (selectedActivity) {
@@ -88,6 +89,7 @@ export const ActivityForm = ({
                 />
                 <Button
                     floated="right"
+                    loading={submitting}
                     positive
                     type="submit"
                     content="Submit"

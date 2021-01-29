@@ -5,6 +5,8 @@ export const ActivityList = ({
     activities,
     deleteActivity,
     selectActivity,
+    submitting,
+    target,
 }) => {
     return (
         <Segment clearing>
@@ -28,7 +30,13 @@ export const ActivityList = ({
                                     color="blue"
                                 />
                                 <Button
-                                    onClick={() => deleteActivity(activity.id)}
+                                    name={activity.id}
+                                    onClick={(e) =>
+                                        deleteActivity(e, activity.id)
+                                    }
+                                    loading={
+                                        submitting && target == activity.id
+                                    }
                                     floated="right"
                                     content="Delete"
                                     color="red"
