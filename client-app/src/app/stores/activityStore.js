@@ -8,6 +8,7 @@ class ActivityStore {
     loadingIndicator = false;
     selectedActivity = null;
     submitting = false;
+    target = "";
 
     constructor() {
         makeObservable(this, {
@@ -16,6 +17,7 @@ class ActivityStore {
             cancelFormOpen: action,
             cancelSelectedActivity: action,
             createActivity: action,
+            deleteActivity: action,
             editActivity: action,
             editMode: observable,
             loadActivities: action,
@@ -25,6 +27,7 @@ class ActivityStore {
             selectActivity: action,
             selectedActivity: observable,
             submitting: observable,
+            target: observable,
         });
     }
 
@@ -54,6 +57,21 @@ class ActivityStore {
         } finally {
             this.editMode = false;
             this.submitting = false;
+        }
+    };
+
+    deleteActivity = async (event, id) => {
+        this.submitting = true;
+        this.target = event.currentTarget.name;
+
+        try {
+            await ActivitiesService.delete(id);
+            this.activityRegistry.delete(id);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            this.submitting = false;
+            this.target = "";
         }
     };
 

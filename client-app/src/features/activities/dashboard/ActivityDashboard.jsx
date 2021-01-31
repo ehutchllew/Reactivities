@@ -6,29 +6,23 @@ import { ActivityDetails } from "../details/ActivityDetails";
 import { ActivityForm } from "../form/ActivityForm";
 import { ActivityList } from "./ActivityList";
 
-export const ActivityDashboard = observer(
-    ({ deleteActivity, submitting, target }) => {
-        const activityStore = useContext(ActivityContext);
-        const { editMode, selectedActivity } = activityStore;
-        return (
-            <Grid>
-                <Grid.Column width={10}>
-                    <ActivityList
-                        deleteActivity={deleteActivity}
-                        submitting={submitting}
-                        target={target}
+export const ActivityDashboard = observer(() => {
+    const activityStore = useContext(ActivityContext);
+    const { editMode, selectedActivity } = activityStore;
+    return (
+        <Grid>
+            <Grid.Column width={10}>
+                <ActivityList />
+            </Grid.Column>
+            <Grid.Column width={6}>
+                {!editMode && selectedActivity && <ActivityDetails />}
+                {editMode && (
+                    <ActivityForm
+                        key={selectedActivity?.id || 0}
+                        selectedActivity={selectedActivity}
                     />
-                </Grid.Column>
-                <Grid.Column width={6}>
-                    {!editMode && selectedActivity && <ActivityDetails />}
-                    {editMode && (
-                        <ActivityForm
-                            key={selectedActivity?.id || 0}
-                            selectedActivity={selectedActivity}
-                        />
-                    )}
-                </Grid.Column>
-            </Grid>
-        );
-    }
-);
+                )}
+            </Grid.Column>
+        </Grid>
+    );
+});
