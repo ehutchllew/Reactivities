@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { createContext } from "react";
 import { ActivitiesService } from "../api/agent";
 
@@ -12,6 +12,7 @@ class ActivityStore {
     constructor() {
         makeObservable(this, {
             activities: observable,
+            activitiesByDate: computed,
             createActivity: action,
             editMode: observable,
             loadActivities: action,
@@ -20,6 +21,12 @@ class ActivityStore {
             selectActivity: action,
             selectedActivity: observable,
             submitting: observable,
+        });
+    }
+
+    get activitiesByDate() {
+        return this.activities.slice().sort((a, b) => {
+            return Date.parse(a.date) - Date.parse(b.date);
         });
     }
 

@@ -6,11 +6,11 @@ import { ActivityContext } from "../../../app/stores/activityStore";
 export const ActivityList = observer(
     ({ deleteActivity, submitting, target }) => {
         const activityStore = useContext(ActivityContext);
-        const { activities, selectActivity } = activityStore;
+        const { activitiesByDate, selectActivity } = activityStore;
         return (
             <Segment clearing>
                 <Item.Group divided>
-                    {activities.map((activity) => (
+                    {activitiesByDate.map((activity) => (
                         <Item key={activity.id}>
                             <Item.Content>
                                 <Item.Header as="a">
