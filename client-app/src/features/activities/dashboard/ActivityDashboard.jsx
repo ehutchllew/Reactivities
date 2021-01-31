@@ -7,14 +7,7 @@ import { ActivityForm } from "../form/ActivityForm";
 import { ActivityList } from "./ActivityList";
 
 export const ActivityDashboard = observer(
-    ({
-        deleteActivity,
-        editActivity,
-        setEditMode,
-        setSelectedActivity,
-        submitting,
-        target,
-    }) => {
+    ({ deleteActivity, submitting, target }) => {
         const activityStore = useContext(ActivityContext);
         const { editMode, selectedActivity } = activityStore;
         return (
@@ -27,19 +20,11 @@ export const ActivityDashboard = observer(
                     />
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    {!editMode && selectedActivity && (
-                        <ActivityDetails
-                            setEditMode={setEditMode}
-                            setSelectedActivity={setSelectedActivity}
-                        />
-                    )}
+                    {!editMode && selectedActivity && <ActivityDetails />}
                     {editMode && (
                         <ActivityForm
                             key={selectedActivity?.id || 0}
-                            editActivity={editActivity}
                             selectedActivity={selectedActivity}
-                            setEditMode={setEditMode}
-                            submitting={submitting}
                         />
                     )}
                 </Grid.Column>

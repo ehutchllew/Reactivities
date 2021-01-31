@@ -3,7 +3,7 @@ import { createContext } from "react";
 import { ActivitiesService } from "../api/agent";
 
 class ActivityStore {
-    activities = [];
+    activityRegistry = new Map();
     editMode = false;
     loadingIndicator = false;
     selectedActivity = null;
@@ -11,13 +11,17 @@ class ActivityStore {
 
     constructor() {
         makeObservable(this, {
-            activities: observable,
             activitiesByDate: computed,
+            activityRegistry: observable,
+            cancelFormOpen: action,
+            cancelSelectedActivity: action,
             createActivity: action,
+            editActivity: action,
             editMode: observable,
             loadActivities: action,
             loadingIndicator: observable,
             openCreateForm: action,
+            openEditForm: action,
             selectActivity: action,
             selectedActivity: observable,
             submitting: observable,
@@ -25,16 +29,40 @@ class ActivityStore {
     }
 
     get activitiesByDate() {
-        return this.activities.slice().sort((a, b) => {
-            return Date.parse(a.date) - Date.parse(b.date);
-        });
+        return Array.from(this.activityRegistry.values())
+            .slice()
+            .sort((a, b) => {
+                return Date.parse(a.date) - Date.parse(b.date);
+            });
     }
+
+    cancelFormOpen = () => {
+        this.editMode = false;
+    };
+
+    cancelSelectedActivity = () => {
+        this.selectedActivity = undefined;
+    };
 
     createActivity = async (activity) => {
         this.submitting = true;
         try {
             await ActivitiesService.create(activity);
-            this.activities.push(activity);
+            this.activityRegistry.set(activity.id, activity);
+        } catch (e) {
+            console.error(e);
+        } finally {
+            this.editMode = false;
+            this.submitting = false;
+        }
+    };
+
+    editActivity = async (activity) => {
+        this.submitting = true;
+        try {
+            await ActivitiesService.update(activity);
+            this.activityRegistry.set(activity.id, activity);
+            this.selectedActivity = activity;
         } catch (e) {
             console.error(e);
         } finally {
@@ -50,7 +78,7 @@ class ActivityStore {
             const json = await resp.json();
             json.forEach((activity) => {
                 activity.date = activity.date.split(".")[0];
-                this.activities.push(activity);
+                this.activityRegistry.set(activity.id, activity);
             });
         } catch (e) {
             console.error(e);
@@ -64,10 +92,13 @@ class ActivityStore {
         this.selectedActivity = undefined;
     };
 
+    openEditForm = (id) => {
+        this.selectedActivity = this.activityRegistry.get(id);
+        this.editMode = true;
+    };
+
     selectActivity = (id) => {
-        this.selectedActivity = this.activities.find(
-            (activity) => activity.id == id
-        );
+        this.selectedActivity = this.activityRegistry.get(id);
         this.editMode = false;
     };
 }

@@ -11,27 +11,12 @@ function App() {
     const activityStore = useContext(ActivityContext);
     const [activities, setActivities] = useState([]);
     const [selectedActivity, setSelectedActivity] = useState(null);
-    const [editMode, setEditMode] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [target, setTarget] = useState("");
 
     useEffect(() => {
         activityStore.loadActivities();
     }, [activityStore]);
-
-    const handleEditActivity = (activity) => {
-        setSubmitting(true);
-        ActivitiesService.update(activity)
-            .then(() => {
-                setActivities([
-                    ...activities.filter((act) => act.id !== activity.id),
-                    activity,
-                ]);
-                setSelectedActivity(activity);
-                setEditMode(false);
-            })
-            .then(() => setSubmitting(false));
-    };
 
     const handleDeleteActivity = (event, id) => {
         setSubmitting(true);
@@ -59,9 +44,6 @@ function App() {
                 <ActivityDashboard
                     activities={activityStore.activities}
                     deleteActivity={handleDeleteActivity}
-                    editActivity={handleEditActivity}
-                    setEditMode={setEditMode}
-                    setSelectedActivity={setSelectedActivity}
                     submitting={submitting}
                     target={target}
                 />
