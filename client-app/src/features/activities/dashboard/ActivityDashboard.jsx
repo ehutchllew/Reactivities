@@ -8,11 +8,8 @@ import { ActivityList } from "./ActivityList";
 
 export const ActivityDashboard = observer(
     ({
-        activities,
-        createActivity,
         deleteActivity,
         editActivity,
-        selectActivity,
         setEditMode,
         setSelectedActivity,
         submitting,
@@ -39,7 +36,6 @@ export const ActivityDashboard = observer(
                     {editMode && (
                         <ActivityForm
                             key={selectedActivity?.id || 0}
-                            createActivity={createActivity}
                             editActivity={editActivity}
                             selectedActivity={selectedActivity}
                             setEditMode={setEditMode}

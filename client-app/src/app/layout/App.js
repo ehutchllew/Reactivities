@@ -1,92 +1,73 @@
-import { useContext, useEffect, useState } from 'react';
-import {  Container } from 'semantic-ui-react';
-import { observer } from 'mobx-react-lite';
-import { ActivityDashboard } from '../../features/activities/dashboard/ActivityDashboard';
-import { NavBar } from '../../features/nav/NavBar';
-import { ActivitiesService } from '../api/agent';
-import { ActivityContext } from '../stores/activityStore';
-import { LoadingIndicator } from './LoadingIndicator';
+import { useContext, useEffect, useState } from "react";
+import { Container } from "semantic-ui-react";
+import { observer } from "mobx-react-lite";
+import { ActivityDashboard } from "../../features/activities/dashboard/ActivityDashboard";
+import { NavBar } from "../../features/nav/NavBar";
+import { ActivitiesService } from "../api/agent";
+import { ActivityContext } from "../stores/activityStore";
+import { LoadingIndicator } from "./LoadingIndicator";
 
 function App() {
-  const activityStore = useContext(ActivityContext)
-  const [activities, setActivities] = useState([])
-  const [selectedActivity, setSelectedActivity] = useState(null);
-  const [editMode, setEditMode] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [target, setTarget] = useState('');
+    const activityStore = useContext(ActivityContext);
+    const [activities, setActivities] = useState([]);
+    const [selectedActivity, setSelectedActivity] = useState(null);
+    const [editMode, setEditMode] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+    const [target, setTarget] = useState("");
 
-  useEffect(() => {
-    activityStore.loadActivities();
-  }, [activityStore])
+    useEffect(() => {
+        activityStore.loadActivities();
+    }, [activityStore]);
 
-  const handleSelectActivity = (id) => {
-    setSelectedActivity(activities.find(activity => activity.id === id));
-    setEditMode(false);
-  }
+    const handleEditActivity = (activity) => {
+        setSubmitting(true);
+        ActivitiesService.update(activity)
+            .then(() => {
+                setActivities([
+                    ...activities.filter((act) => act.id !== activity.id),
+                    activity,
+                ]);
+                setSelectedActivity(activity);
+                setEditMode(false);
+            })
+            .then(() => setSubmitting(false));
+    };
 
-  const handleOpenCreateForm = () => {
-    setSelectedActivity(null);
-    setEditMode(true);
-  }
+    const handleDeleteActivity = (event, id) => {
+        setSubmitting(true);
+        setTarget(event.currentTarget.name);
+        ActivitiesService.delete(id)
+            .then(() => {
+                if (selectedActivity && id === selectedActivity.id) {
+                    setSelectedActivity(null);
+                }
+                setActivities([
+                    ...activities.filter((activity) => activity.id !== id),
+                ]);
+            })
+            .then(() => setSubmitting(false));
+    };
 
-  const handleCreateActivity = (activity) => {
-    setSubmitting(true);
-    ActivitiesService.create(activity)
-      .then(() => {
-        setActivities([...activities, activity])
-        setSelectedActivity(activity);
-        setEditMode(false);
-      })
-      .then(() => setSubmitting(false))
-  }
+    if (activityStore.loadingIndicator)
+        return <LoadingIndicator content="Loading Activities..." />;
 
-  const handleEditActivity = (activity) => {
-    setSubmitting(true);
-    ActivitiesService.update(activity)
-      .then(() => {
-        setActivities([...activities.filter(act => act.id !== activity.id), activity])
-        setSelectedActivity(activity);
-        setEditMode(false);
-      })
-      .then(() => setSubmitting(false))
-    
-  }
-
-  const handleDeleteActivity = (event, id) => {
-    setSubmitting(true);
-    setTarget(event.currentTarget.name);
-    ActivitiesService.delete(id)
-        .then(() => {
-          if(selectedActivity && id===selectedActivity.id){setSelectedActivity(null);}
-          setActivities([...activities.filter(activity => activity.id !== id)])
-          })
-        .then(() => setSubmitting(false))
-  }
-
-  if(activityStore.loadingIndicator) return <LoadingIndicator content="Loading Activities..." />
-
-  
-  return (
-    <div>
-      <NavBar openCreateForm={handleOpenCreateForm} />
-      <Container style={{marginTop: '7em'}}>
-        <h1>{activityStore.title}</h1>
-        <ActivityDashboard 
-          activities={activityStore.activities} 
-          createActivity={handleCreateActivity}
-          deleteActivity={handleDeleteActivity}
-          editActivity={handleEditActivity}
-          selectActivity={handleSelectActivity} 
-          setEditMode={setEditMode}
-          setSelectedActivity={setSelectedActivity}
-          submitting={submitting}
-          target={target}
-        />
-      </Container>
-    </div>
-
-  );
+    return (
+        <div>
+            <NavBar />
+            <Container style={{ marginTop: "7em" }}>
+                <h1>{activityStore.title}</h1>
+                <ActivityDashboard
+                    activities={activityStore.activities}
+                    deleteActivity={handleDeleteActivity}
+                    editActivity={handleEditActivity}
+                    setEditMode={setEditMode}
+                    setSelectedActivity={setSelectedActivity}
+                    submitting={submitting}
+                    target={target}
+                />
+            </Container>
+        </div>
+    );
 }
 
 export default observer(App);
