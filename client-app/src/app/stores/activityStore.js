@@ -1,6 +1,15 @@
-import { action, computed, makeObservable, observable } from "mobx";
+import {
+    action,
+    computed,
+    configure,
+    makeObservable,
+    observable,
+    runInAction,
+} from "mobx";
 import { createContext } from "react";
 import { ActivitiesService } from "../api/agent";
+
+configure({ enforceActions: "always" });
 
 class ActivityStore {
     activityRegistry = new Map();
@@ -51,12 +60,16 @@ class ActivityStore {
         this.submitting = true;
         try {
             await ActivitiesService.create(activity);
-            this.activityRegistry.set(activity.id, activity);
+            runInAction(() => {
+                this.activityRegistry.set(activity.id, activity);
+            });
         } catch (e) {
             console.error(e);
         } finally {
-            this.editMode = false;
-            this.submitting = false;
+            runInAction(() => {
+                this.editMode = false;
+                this.submitting = false;
+            });
         }
     };
 
@@ -66,12 +79,16 @@ class ActivityStore {
 
         try {
             await ActivitiesService.delete(id);
-            this.activityRegistry.delete(id);
+            runInAction(() => {
+                this.activityRegistry.delete(id);
+            });
         } catch (e) {
             console.error(e);
         } finally {
-            this.submitting = false;
-            this.target = "";
+            runInAction(() => {
+                this.submitting = false;
+                this.target = "";
+            });
         }
     };
 
@@ -79,13 +96,17 @@ class ActivityStore {
         this.submitting = true;
         try {
             await ActivitiesService.update(activity);
-            this.activityRegistry.set(activity.id, activity);
-            this.selectedActivity = activity;
+            runInAction(() => {
+                this.activityRegistry.set(activity.id, activity);
+                this.selectedActivity = activity;
+            });
         } catch (e) {
             console.error(e);
         } finally {
-            this.editMode = false;
-            this.submitting = false;
+            runInAction(() => {
+                this.editMode = false;
+                this.submitting = false;
+            });
         }
     };
 
@@ -94,14 +115,18 @@ class ActivityStore {
         try {
             const resp = await ActivitiesService.list();
             const json = await resp.json();
-            json.forEach((activity) => {
-                activity.date = activity.date.split(".")[0];
-                this.activityRegistry.set(activity.id, activity);
+            runInAction(() => {
+                json.forEach((activity) => {
+                    activity.date = activity.date.split(".")[0];
+                    this.activityRegistry.set(activity.id, activity);
+                });
             });
         } catch (e) {
             console.error(e);
         } finally {
-            this.loadingIndicator = false;
+            runInAction(() => {
+                this.loadingIndicator = false;
+            });
         }
     };
 

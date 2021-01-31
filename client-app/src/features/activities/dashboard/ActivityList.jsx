@@ -39,7 +39,7 @@ export const ActivityList = observer(() => {
                                         deleteActivity(e, activity.id)
                                     }
                                     loading={
-                                        submitting && target == activity.id
+                                        submitting && target === activity.id
                                     }
                                     floated="right"
                                     content="Delete"
