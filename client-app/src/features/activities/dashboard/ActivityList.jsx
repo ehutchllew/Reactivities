@@ -9,7 +9,6 @@ export const ActivityList = observer(() => {
     const {
         activitiesByDate,
         deleteActivity,
-        selectActivity,
         submitting,
         target,
     } = activityStore;

@@ -7,16 +7,11 @@ import { Link } from "react-router-dom";
 
 export const ActivityDetails = observer(({ history, match }) => {
     const activityStore = useContext(ActivityContext);
-    const {
-        loadActivity,
-        loadingIndicator,
-        openEditForm,
-        selectedActivity,
-    } = activityStore;
+    const { loadActivity, loadingIndicator, selectedActivity } = activityStore;
 
     useEffect(() => {
         loadActivity(match.params.id);
-    }, [loadActivity]);
+    }, [loadActivity, match.params.id]);
 
     if (loadingIndicator) {
         return <LoadingIndicator content="Loading Activity..." />;

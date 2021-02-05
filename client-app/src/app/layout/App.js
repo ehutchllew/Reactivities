@@ -22,18 +22,32 @@ function App({ location }) {
 
     return (
         <div>
-            <NavBar />
-            <Container style={{ marginTop: "7em" }}>
-                <h1>{activityStore.title}</h1>
-                <Route path="/" exact component={HomePage} />
-                <Route path="/activities" exact component={ActivityDashboard} />
-                <Route path="/activities/:id" component={ActivityDetails} />
-                <Route
-                    key={location.key}
-                    path={["/create", "/manage/:id"]}
-                    component={ActivityForm}
-                />
-            </Container>
+            <Route path="/" exact component={HomePage} />
+            <Route
+                path={"/(.+)"}
+                render={() => (
+                    <>
+                        <NavBar />
+                        <Container style={{ marginTop: "7em" }}>
+                            <h1>{activityStore.title}</h1>
+                            <Route
+                                path="/activities"
+                                exact
+                                component={ActivityDashboard}
+                            />
+                            <Route
+                                path="/activities/:id"
+                                component={ActivityDetails}
+                            />
+                            <Route
+                                key={location.key}
+                                path={["/create", "/manage/:id"]}
+                                component={ActivityForm}
+                            />
+                        </Container>
+                    </>
+                )}
+            />
         </div>
     );
 }

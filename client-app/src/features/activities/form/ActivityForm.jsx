@@ -61,7 +61,6 @@ export const ActivityForm = observer(({ history, match }) => {
             );
         }
     };
-    console.log("ACTIVITY: \n", activity);
     if (!activity) return null;
     return (
         <Segment clearing>
