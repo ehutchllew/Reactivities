@@ -1,10 +1,13 @@
 import { useContext, useEffect } from "react";
+import { Route } from "react-router-dom";
 import { Container } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { ActivityDashboard } from "../../features/activities/dashboard/ActivityDashboard";
 import { NavBar } from "../../features/nav/NavBar";
 import { ActivityContext } from "../stores/activityStore";
 import { LoadingIndicator } from "./LoadingIndicator";
+import { HomePage } from "../../features/home/HomePage";
+import { ActivityForm } from "../../features/activities/form/ActivityForm";
 
 function App() {
     const activityStore = useContext(ActivityContext);
@@ -21,7 +24,9 @@ function App() {
             <NavBar />
             <Container style={{ marginTop: "7em" }}>
                 <h1>{activityStore.title}</h1>
-                <ActivityDashboard />
+                <Route path="/" exact component={HomePage} />
+                <Route path="/activities" component={ActivityDashboard} />
+                <Route path="/create" component={ActivityForm} />
             </Container>
         </div>
     );
