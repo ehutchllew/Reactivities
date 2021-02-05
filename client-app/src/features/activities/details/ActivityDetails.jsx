@@ -4,10 +4,9 @@ import { observer } from "mobx-react-lite";
 import { ActivityContext } from "../../../app/stores/activityStore";
 import { LoadingIndicator } from "../../../app/layout/LoadingIndicator";
 
-export const ActivityDetails = observer(({ match }) => {
+export const ActivityDetails = observer(({ history, match }) => {
     const activityStore = useContext(ActivityContext);
     const {
-        cancelSelectedActivity,
         loadActivity,
         loadingIndicator,
         openEditForm,
@@ -51,7 +50,7 @@ export const ActivityDetails = observer(({ match }) => {
                         content="edit"
                     />
                     <Button
-                        onClick={cancelSelectedActivity}
+                        onClick={() => history.push("/activities")}
                         basic
                         color="grey"
                         content="Cancel"
