@@ -25,6 +25,7 @@ class ActivityStore {
             activityRegistry: observable,
             cancelFormOpen: action,
             cancelSelectedActivity: action,
+            clearActivity: action,
             createActivity: action,
             deleteActivity: action,
             editActivity: action,
@@ -54,7 +55,11 @@ class ActivityStore {
     };
 
     cancelSelectedActivity = () => {
-        this.selectedActivity = undefined;
+        this.selectedActivity = null;
+    };
+
+    clearActivity = () => {
+        this.selectedActivity = null;
     };
 
     createActivity = async (activity) => {
@@ -144,6 +149,7 @@ class ActivityStore {
             this.loadingIndicator = true;
             try {
                 activity = await ActivitiesService.details(id);
+                console.log(activity);
                 runInAction(() => {
                     this.selectedActivity = activity;
                 });
@@ -159,7 +165,7 @@ class ActivityStore {
 
     openCreateForm = () => {
         this.editMode = true;
-        this.selectedActivity = undefined;
+        this.selectedActivity = null;
     };
 
     openEditForm = (id) => {

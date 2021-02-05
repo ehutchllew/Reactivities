@@ -3,6 +3,7 @@ import { Button, Card, Image } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { ActivityContext } from "../../../app/stores/activityStore";
 import { LoadingIndicator } from "../../../app/layout/LoadingIndicator";
+import { Link } from "react-router-dom";
 
 export const ActivityDetails = observer(({ history, match }) => {
     const activityStore = useContext(ActivityContext);
@@ -44,7 +45,8 @@ export const ActivityDetails = observer(({ history, match }) => {
             <Card.Content extra>
                 <Button.Group widths={2}>
                     <Button
-                        onClick={() => openEditForm(selectedActivity.id)}
+                        as={Link}
+                        to={`/manage/${selectedActivity.id}`}
                         basic
                         color="blue"
                         content="edit"

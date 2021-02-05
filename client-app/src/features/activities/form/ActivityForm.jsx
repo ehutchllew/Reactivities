@@ -1,33 +1,42 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, Segment } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { v4 as uuid } from "uuid";
 import { ActivityContext } from "../../../app/stores/activityStore";
 
-export const ActivityForm = observer(({ selectedActivity }) => {
+export const ActivityForm = observer(({ history, match }) => {
     const activityStore = useContext(ActivityContext);
     const {
         cancelFormOpen,
+        clearActivity,
         createActivity,
         editActivity,
+        loadActivity,
+        selectedActivity,
         submitting,
     } = activityStore;
-    const initializeForm = () => {
-        if (selectedActivity) {
-            return selectedActivity;
-        } else {
-            return {
-                title: "",
-                category: "",
-                description: "",
-                date: "",
-                city: "",
-                venue: "",
-            };
-        }
-    };
 
-    const [activity, setActivity] = useState(initializeForm);
+    useEffect(() => {
+        if (match.params.id && !activity.id.length) {
+            loadActivity(match.params.id).then(() =>
+                setActivity(selectedActivity)
+            );
+        }
+
+        return () => {
+            clearActivity();
+        };
+    }, [loadActivity, clearActivity, match.params.id, selectedActivity]);
+
+    const [activity, setActivity] = useState({
+        id: "",
+        title: "",
+        category: "",
+        description: "",
+        date: "",
+        city: "",
+        venue: "",
+    });
 
     const handleInputChange = (event) => {
         setActivity({
@@ -43,12 +52,17 @@ export const ActivityForm = observer(({ selectedActivity }) => {
                 id: uuid(),
             };
 
-            createActivity(newActivity);
+            createActivity(newActivity).then(() =>
+                history.push(`/activities/${newActivity.id}`)
+            );
         } else {
-            editActivity(activity);
+            editActivity(activity).then(() =>
+                history.push(`/activities/${activity.id}`)
+            );
         }
     };
-
+    console.log("ACTIVITY: \n", activity);
+    if (!activity) return null;
     return (
         <Segment clearing>
             <Form onSubmit={handleSubmit}>
