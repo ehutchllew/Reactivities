@@ -30,6 +30,7 @@ class ActivityStore {
             editActivity: action,
             editMode: observable,
             loadActivities: action,
+            loadActivity: action,
             loadingIndicator: observable,
             openCreateForm: action,
             openEditForm: action,
@@ -110,6 +111,11 @@ class ActivityStore {
         }
     };
 
+    //Helper Method
+    getActivity = (id) => {
+        return this.activityRegistry.get(id);
+    };
+
     loadActivities = async () => {
         this.loadingIndicator = true;
         try {
@@ -127,6 +133,27 @@ class ActivityStore {
             runInAction(() => {
                 this.loadingIndicator = false;
             });
+        }
+    };
+
+    loadActivity = async (id) => {
+        let activity = this.getActivity(id);
+        if (activity) {
+            this.selectedActivity = activity;
+        } else {
+            this.loadingIndicator = true;
+            try {
+                activity = await ActivitiesService.details(id);
+                runInAction(() => {
+                    this.selectedActivity = activity;
+                });
+            } catch (e) {
+                console.error(e);
+            } finally {
+                runInAction(() => {
+                    this.loadingIndicator = false;
+                });
+            }
         }
     };
 

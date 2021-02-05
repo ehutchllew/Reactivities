@@ -26,7 +26,7 @@ function App() {
             <Container style={{ marginTop: "7em" }}>
                 <h1>{activityStore.title}</h1>
                 <Route path="/" exact component={HomePage} />
-                <Route path="/activities" component={ActivityDashboard} />
+                <Route path="/activities" exact component={ActivityDashboard} />
                 <Route path="/activities/:id" component={ActivityDetails} />
                 <Route path="/create" component={ActivityForm} />
             </Container>

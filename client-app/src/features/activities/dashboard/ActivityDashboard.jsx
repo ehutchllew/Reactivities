@@ -15,13 +15,7 @@ export const ActivityDashboard = observer(() => {
                 <ActivityList />
             </Grid.Column>
             <Grid.Column width={6}>
-                {!editMode && selectedActivity && <ActivityDetails />}
-                {editMode && (
-                    <ActivityForm
-                        key={selectedActivity?.id || 0}
-                        selectedActivity={selectedActivity}
-                    />
-                )}
+                <h2>Activity Filters</h2>
             </Grid.Column>
         </Grid>
     );

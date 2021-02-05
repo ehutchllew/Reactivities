@@ -1,18 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Button, Card, Image } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import { ActivityContext } from "../../../app/stores/activityStore";
+import { LoadingIndicator } from "../../../app/layout/LoadingIndicator";
 
-export const ActivityDetails = observer(() => {
+export const ActivityDetails = observer(({ match }) => {
     const activityStore = useContext(ActivityContext);
     const {
         cancelSelectedActivity,
+        loadActivity,
+        loadingIndicator,
         openEditForm,
         selectedActivity,
     } = activityStore;
+
+    useEffect(() => {
+        loadActivity(match.params.id);
+    }, [loadActivity]);
+
+    if (loadingIndicator) {
+        return <LoadingIndicator content="Loading Activity..." />;
+    }
+
     if (!selectedActivity) {
         return null;
     }
+
     return (
         <Card fluid>
             <Image
