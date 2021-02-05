@@ -8,6 +8,7 @@ import { ActivityContext } from "../stores/activityStore";
 import { LoadingIndicator } from "./LoadingIndicator";
 import { HomePage } from "../../features/home/HomePage";
 import { ActivityForm } from "../../features/activities/form/ActivityForm";
+import { ActivityDetails } from "../../features/activities/details/ActivityDetails";
 
 function App() {
     const activityStore = useContext(ActivityContext);
@@ -26,6 +27,7 @@ function App() {
                 <h1>{activityStore.title}</h1>
                 <Route path="/" exact component={HomePage} />
                 <Route path="/activities" component={ActivityDashboard} />
+                <Route path="/activities/:id" component={ActivityDetails} />
                 <Route path="/create" component={ActivityForm} />
             </Container>
         </div>
