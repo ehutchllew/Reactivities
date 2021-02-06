@@ -15,16 +15,14 @@ export const ActivityList = observer(() => {
                         <Label key={group} size="large" color="blue">
                             {group}
                         </Label>
-                        <Segment clearing>
-                            <Item.Group divided>
-                                {activities.map((activity) => (
-                                    <ActivityListeItem
-                                        activity={activity}
-                                        key={activity.id}
-                                    />
-                                ))}
-                            </Item.Group>
-                        </Segment>
+                        <Item.Group divided>
+                            {activities.map((activity) => (
+                                <ActivityListeItem
+                                    activity={activity}
+                                    key={activity.id}
+                                />
+                            ))}
+                        </Item.Group>
                     </>
                 );
             })}
