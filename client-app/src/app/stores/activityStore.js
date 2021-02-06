@@ -43,11 +43,9 @@ class ActivityStore {
     }
 
     get activitiesByDate() {
-        return Array.from(this.activityRegistry.values())
-            .slice()
-            .sort((a, b) => {
-                return Date.parse(a.date) - Date.parse(b.date);
-            });
+        return this.groupActivitiesByDate(
+            Array.from(this.activityRegistry.values())
+        );
     }
 
     cancelFormOpen = () => {
@@ -119,6 +117,22 @@ class ActivityStore {
     //Helper Method
     getActivity = (id) => {
         return this.activityRegistry.get(id);
+    };
+
+    groupActivitiesByDate = (activities) => {
+        const sortedActivities = activities.sort((a, b) => {
+            return Date.parse(a.date) - Date.parse(b.date);
+        });
+
+        return Object.entries(
+            sortedActivities.reduce((acc, currentVal) => {
+                const date = currentVal.date.split("T")[0];
+                acc[date] = acc[date]
+                    ? [...acc[date], currentVal]
+                    : [currentVal];
+                return acc;
+            }, {})
+        );
     };
 
     loadActivities = async () => {

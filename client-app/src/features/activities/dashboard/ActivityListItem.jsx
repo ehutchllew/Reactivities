@@ -1,11 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Item, Button, Label } from "semantic-ui-react";
-import { ActivityContext } from "../../../app/stores/activityStore";
 
 export const ActivityListeItem = ({ activity }) => {
-    const activityStore = useContext(ActivityContext);
-    const { deleteActivity, submitting, target } = activityStore;
     return (
         <Item key={activity.id}>
             <Item.Content>
