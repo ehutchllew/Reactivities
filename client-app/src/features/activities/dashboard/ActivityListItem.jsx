@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Item, Button, Label, Segment, Icon } from "semantic-ui-react";
+import { Item, Button, Segment, Icon } from "semantic-ui-react";
 
 export const ActivityListeItem = ({ activity }) => {
     return (
