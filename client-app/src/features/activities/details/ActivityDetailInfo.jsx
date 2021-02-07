@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon, Grid, Segment } from "semantic-ui-react";
 
-export const ActivityDetailInfo = () => {
+export const ActivityDetailInfo = ({ activity }) => {
     return (
         <Segment.Group>
             <Segment attached="top">
@@ -10,7 +10,7 @@ export const ActivityDetailInfo = () => {
                         <Icon size="large" color="teal" name="info" />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <p>{"description"}</p>
+                        <p>{activity.description}</p>
                     </Grid.Column>
                 </Grid>
             </Segment>
@@ -20,7 +20,7 @@ export const ActivityDetailInfo = () => {
                         <Icon name="calendar" size="large" color="teal" />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <span>{"date"}</span>
+                        <span>{activity.date}</span>
                     </Grid.Column>
                 </Grid>
             </Segment>
@@ -31,7 +31,7 @@ export const ActivityDetailInfo = () => {
                     </Grid.Column>
                     <Grid.Column width={11}>
                         <span>
-                            {"venue"}, {"city"}
+                            {activity.venue}, {activity.city}
                         </span>
                     </Grid.Column>
                 </Grid>

@@ -28,7 +28,7 @@ export const ActivityDetails = observer(({ match }) => {
         <Grid>
             <Grid.Column width={10}>
                 <ActivityDetailHeader activity={selectedActivity} />
-                <ActivityDetailInfo />
+                <ActivityDetailInfo activity={selectedActivity} />
                 <ActivityDetailChat />
             </Grid.Column>
             <Grid.Column width={6}>
