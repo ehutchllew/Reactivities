@@ -1,21 +1,39 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
 import { Button, Header, Image, Item, Segment } from "semantic-ui-react";
 
-export const ActivityDetailHeader = () => {
+const activityImageStyle = {
+    filter: "brightness(30%)",
+};
+
+const activityImageTextStyle = {
+    position: "absolute",
+    bottom: "5%",
+    left: "5%",
+    width: "100%",
+    height: "auto",
+    color: "white",
+};
+
+export const ActivityDetailHeader = observer(({ activity }) => {
     return (
         <Segment.Group>
             <Segment basic attached="top" style={{ padding: "0" }}>
-                <Image src={`/assets/placeholder.png`} fluid />
-                <Segment>
+                <Image
+                    src={`/assets/categoryImages/${activity.category}.jpg`}
+                    fluid
+                    style={activityImageStyle}
+                />
+                <Segment basic style={activityImageTextStyle}>
                     <Item.Group>
                         <Item>
                             <Item.Content>
                                 <Header
                                     size="huge"
-                                    content={"Title"}
+                                    content={activity.title}
                                     style={{ color: "white" }}
                                 />
-                                <p>Date</p>
+                                <p>{activity.date}</p>
                                 <p>
                                     Hosted by <strong>Bob</strong>
                                 </p>
@@ -33,4 +51,4 @@ export const ActivityDetailHeader = () => {
             </Segment>
         </Segment.Group>
     );
-};
+});
