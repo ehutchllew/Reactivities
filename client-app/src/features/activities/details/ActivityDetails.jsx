@@ -8,13 +8,15 @@ import { ActivityDetailInfo } from "./ActivityDetailInfo";
 import { ActivityDetailChat } from "./ActivityDetailChat";
 import { ActivityDetailSidebar } from "./ActivityDetailSidebar";
 
-export const ActivityDetails = observer(({ match }) => {
+export const ActivityDetails = observer(({ history, match }) => {
     const activityStore = useContext(ActivityContext);
     const { loadActivity, loadingIndicator, selectedActivity } = activityStore;
 
     useEffect(() => {
-        loadActivity(match.params.id);
-    }, [loadActivity, match.params.id]);
+        loadActivity(match.params.id).catch(() => {
+            history.push("/notfound");
+        });
+    }, [history, loadActivity, match.params.id]);
 
     if (loadingIndicator) {
         return <LoadingIndicator content="Loading Activity..." />;

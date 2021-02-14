@@ -163,12 +163,11 @@ class ActivityStore {
             this.loadingIndicator = true;
             try {
                 activity = await ActivitiesService.details(id);
-                console.log(activity);
                 runInAction(() => {
                     this.selectedActivity = activity;
                 });
             } catch (e) {
-                console.error(e);
+                throw e;
             } finally {
                 runInAction(() => {
                     this.loadingIndicator = false;

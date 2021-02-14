@@ -17,6 +17,13 @@ async function baseService(method, url, body, headers) {
         headers: allHeaders,
         body,
     });
+
+    if (resp.status === 404) {
+        throw {
+            message: resp.statusText,
+        };
+    }
+
     return sleep(1000)(resp);
 }
 
