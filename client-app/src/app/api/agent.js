@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { history } from "../..";
 
 const baseUrl = "http://localhost:5000/api";
@@ -20,8 +21,11 @@ async function baseService(method, url, body, headers) {
         body,
     });
 
-    if (resp.status === 404) {
+    if (resp.status === 404 || resp.status === 400) {
         history.push("/notfound");
+    }
+    if (resp.status === 500) {
+        toast.error("Server error - check the terminal for more info!");
     }
 
     return sleep(1000)(resp);

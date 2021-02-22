@@ -10,6 +10,7 @@ import { HomePage } from "../../features/home/HomePage";
 import { ActivityForm } from "../../features/activities/form/ActivityForm";
 import { ActivityDetails } from "../../features/activities/details/ActivityDetails";
 import { NotFound } from "./NotFound";
+import { ToastContainer } from "react-toastify";
 
 function App({ location }) {
     const activityStore = useContext(ActivityContext);
@@ -23,6 +24,7 @@ function App({ location }) {
 
     return (
         <div>
+            <ToastContainer position="bottom-right" />
             <Route path="/" exact component={HomePage} />
             <Route
                 path={"/(.+)"}
