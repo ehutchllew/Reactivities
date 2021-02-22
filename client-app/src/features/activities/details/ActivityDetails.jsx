@@ -13,9 +13,7 @@ export const ActivityDetails = observer(({ history, match }) => {
     const { loadActivity, loadingIndicator, selectedActivity } = activityStore;
 
     useEffect(() => {
-        loadActivity(match.params.id).catch(() => {
-            history.push("/notfound");
-        });
+        loadActivity(match.params.id);
     }, [history, loadActivity, match.params.id]);
 
     if (loadingIndicator) {

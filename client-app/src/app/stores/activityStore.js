@@ -167,7 +167,7 @@ class ActivityStore {
                     this.selectedActivity = activity;
                 });
             } catch (e) {
-                throw e;
+                console.warn(e);
             } finally {
                 runInAction(() => {
                     this.loadingIndicator = false;

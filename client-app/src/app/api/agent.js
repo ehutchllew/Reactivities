@@ -1,3 +1,5 @@
+import { history } from "../..";
+
 const baseUrl = "http://localhost:5000/api";
 const baseHeaders = {
     "Content-Type": "application/json",
@@ -19,9 +21,7 @@ async function baseService(method, url, body, headers) {
     });
 
     if (resp.status === 404) {
-        throw {
-            message: resp.statusText,
-        };
+        history.push("/notfound");
     }
 
     return sleep(1000)(resp);
