@@ -1,5 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
+import { Link } from "react-router-dom";
 import { Button, Header, Image, Item, Segment } from "semantic-ui-react";
 
 const activityImageStyle = {
@@ -45,7 +46,12 @@ export const ActivityDetailHeader = observer(({ activity }) => {
             <Segment clearing attached="bottom">
                 <Button color="teal">Join Activity</Button>
                 <Button>Cancel attendance</Button>
-                <Button color="orange" floated="right">
+                <Button
+                    as={Link}
+                    to={`/manage/${activity.id}`}
+                    color="orange"
+                    floated="right"
+                >
                     Manage Event
                 </Button>
             </Segment>
